@@ -1,29 +1,10 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-// glew.
-#define GLEW_STATIC
-#include <GL/glew.h>
-// glfw.
-#include <GLFW/glfw3.h>
+#include "macros.h"
+#include "vertex_buffer.h"
+#include "index_buffer.h"
 
 constexpr GLint kWindowWidth = 800.f;
 constexpr GLint kWindowHeight = 600.f;
 
-#define GLAssert(x) if (!(x)) __builtin_trap();
-#define GLCall(x) GLClearError(); x; GLAssert(GLLogCall(#x, __LINE__));
-
-static void GLClearError() {
-  while (glGetError() != GL_NO_ERROR);
-}
-
-static bool GLLogCall(const char *function, int line) {
-  while (GLenum error = glGetError()) {
-    std::cout << "opengl_error: " << error << " in " << function << ":" << line << std::endl;
-    return false;
-  }
-  return true;
-}
 
 struct ShaderSrc {
   std::string vertex_source_;
@@ -126,20 +107,10 @@ int main() {
   
   glViewport(0, 0, sw, sh);
   
-  // In order to draw a triangle we need to define a vertex buffer and a shader.
-  // * A vertex buffer is a buffer in the GPu VRAM and used to issue a 'draw' call.
-  // * A shader is a program that runs on the GPU that performs the draw command.
-  // OpenGL works as a state machine, every command is contextual to the previous ones.
-  GLuint buffer_id, vao_id;
+  // ** vertex array VAO **
+  GLuint vao_id;
   glGenVertexArrays(1, &vao_id);
-  glGenBuffers(/* number of buffers */ 1, &buffer_id);
   glBindVertexArray(vao_id);
-
-  // Every time an object is being created in OpenGL, an ID (unsigned int) is returned.
-  // This IDs are used to refers to the existing objects in the openGL commands.
-  
-  // With 'glBindBuffer' we select the buffer created above.
-  glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
   
   // 'glBufferData' is used to move data inside the vertex buffer.
   constexpr int number_of_vertices = 6;
@@ -154,11 +125,9 @@ int main() {
     -0.5f,  0.5f, // vertex idx 3
   };
   
-  glBufferData(GL_ARRAY_BUFFER,
-               buffer_size * sizeof(float),         // size in bytes.
-               vertices,                            // ptr to the buffer.
-               GL_STATIC_DRAW);                     // a hint to openGL on whether this array might
-                                                    // change or not.
+  VertexBuffer vbo(vertices, number_of_vertices * number_of_coordinates_per_vertex * sizeof(float));
+  vbo.Bind();
+  
   // Now we have a vertex buffer with data but openGL has no knowldge of the memory layout of the
   // buffer (the choice to have pairs of 2d coordinates as above is completely arbitrary).
   
@@ -173,29 +142,14 @@ int main() {
                         GL_FALSE,           // Whether this attribute is already normalized (-1, 1).
                         sizeof(float) * 2,  // Stride, the size of every element.
                         0);                 // Offset of the attribute.
-  // To enable a vertex attribute array.
   
-  // ** index buffers **
-  // Everything is drawn composing triangles.
-  // Given this two triangles
-  // first triangle.
-  // -0.5f, -0.5f,
-  //  0.5f, -0.5f,
-  //  0.5f,  0.5f,
-  // second triangle.
-  //  0.5f,  0.5f,
-  // -0.5f,  0.5f,
-  // -0.5f, -0.5f,
-  // We have a sub-optimal configuration because many vertices are repeated.
-  // index buffers alleviate this issue.
-  GLuint ibo[] = {
+  // ** index buffers IBO **
+  GLuint indices[] = {
     0, 1, 2,
     2, 3, 0
   };
-  unsigned int ibo_id; // index buffer object.
-  glGenBuffers(1, &ibo_id);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_id);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, number_of_vertices * sizeof(GLuint), ibo, GL_STATIC_DRAW);
+  IndexBuffer ibo(indices, number_of_vertices);
+  ibo.Bind();
   
   // ** vertex shader **
   // - program that works on every vertex individually (on the GPU).
@@ -218,6 +172,9 @@ int main() {
   
   while (!glfwWindowShouldClose(window)) {
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    vbo.Bind();
+    ibo.Bind();
     
     // uniform are applied per draw call and affect all of the vertices in that draw call.
     // you can't have two different uniform values for 2 different triangles.
