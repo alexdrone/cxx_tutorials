@@ -1,6 +1,7 @@
 #include "macros.h"
 #include "vertex_buffer.h"
 #include "index_buffer.h"
+#include "vertex_array.h"
 
 constexpr GLint kWindowWidth = 800.f;
 constexpr GLint kWindowHeight = 600.f;
@@ -107,11 +108,6 @@ int main() {
   
   glViewport(0, 0, sw, sh);
   
-  // ** vertex array VAO **
-  GLuint vao_id;
-  glGenVertexArrays(1, &vao_id);
-  glBindVertexArray(vao_id);
-  
   // 'glBufferData' is used to move data inside the vertex buffer.
   constexpr int number_of_vertices = 6;
   constexpr int number_of_coordinates_per_vertex = 2;
@@ -125,32 +121,21 @@ int main() {
     -0.5f,  0.5f, // vertex idx 3
   };
   
+  // Initialize the VAO and set its VBO + Memory Layout.
+  VertexArray vao;
   VertexBuffer vbo(vertices, number_of_vertices * number_of_coordinates_per_vertex * sizeof(float));
-  vbo.Bind();
   
-  // Now we have a vertex buffer with data but openGL has no knowldge of the memory layout of the
-  // buffer (the choice to have pairs of 2d coordinates as above is completely arbitrary).
-  
-  // ** vertex attributes **
-  // - A vertex can contain way more data than only positions (e.g normals, texture coordinates,
-  // colors, bi-normals, tangents...)
-  
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0,                  // The index of the attribute for this vertex.
-                        2,                  // How many component per element.
-                        GL_FLOAT,           // The type of every component.
-                        GL_FALSE,           // Whether this attribute is already normalized (-1, 1).
-                        sizeof(float) * 2,  // Stride, the size of every element.
-                        0);                 // Offset of the attribute.
-  
+  VertexBufferLayout layout;
+  layout.Push<GLfloat>(2);
+  vao.AddBuffer(vbo, layout);
+
   // ** index buffers IBO **
   GLuint indices[] = {
     0, 1, 2,
     2, 3, 0
   };
   IndexBuffer ibo(indices, number_of_vertices);
-  ibo.Bind();
-  
+
   // ** vertex shader **
   // - program that works on every vertex individually (on the GPU).
   
@@ -173,6 +158,7 @@ int main() {
   while (!glfwWindowShouldClose(window)) {
     glClear(GL_COLOR_BUFFER_BIT);
     
+    vao.Bind();
     vbo.Bind();
     ibo.Bind();
     

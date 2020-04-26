@@ -15,6 +15,8 @@
 		1688B97A2443AB4D001D2F2E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1688B9792443AB4D001D2F2E /* OpenGL.framework */; };
 		1688B97C2443ABCC001D2F2E /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1688B97B2443ABCC001D2F2E /* libGLEW.2.1.0.dylib */; };
 		1688B97E2443ABDD001D2F2E /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1688B97D2443ABDD001D2F2E /* libglfw.3.3.dylib */; };
+		16901C702454C10B00F04869 /* vertex_array.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 16901C6E2454C10B00F04869 /* vertex_array.cxx */; };
+		16901C732454C21E00F04869 /* vertex_buffer_layout.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 16901C712454C21D00F04869 /* vertex_buffer_layout.cxx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +45,10 @@
 		1688B9792443AB4D001D2F2E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1688B97B2443ABCC001D2F2E /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../usr/local/Cellar/glew/2.1.0_1/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
 		1688B97D2443ABDD001D2F2E /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		16901C6E2454C10B00F04869 /* vertex_array.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vertex_array.cxx; path = "opengl-template/vertex_array.cxx"; sourceTree = SOURCE_ROOT; };
+		16901C6F2454C10B00F04869 /* vertex_array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = vertex_array.h; path = "opengl-template/vertex_array.h"; sourceTree = SOURCE_ROOT; };
+		16901C712454C21D00F04869 /* vertex_buffer_layout.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vertex_buffer_layout.cxx; sourceTree = "<group>"; };
+		16901C722454C21D00F04869 /* vertex_buffer_layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vertex_buffer_layout.h; sourceTree = "<group>"; };
 		16C4B12B244E25830034309B /* basic.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = basic.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +96,10 @@
 				1617E9C0245167090039CEF5 /* index_buffer.cxx */,
 				1617E9BE2451643E0039CEF5 /* vertex_buffer.h */,
 				1617E9BD2451643E0039CEF5 /* vertex_buffer.cxx */,
+				16901C722454C21D00F04869 /* vertex_buffer_layout.h */,
+				16901C712454C21D00F04869 /* vertex_buffer_layout.cxx */,
+				16901C6F2454C10B00F04869 /* vertex_array.h */,
+				16901C6E2454C10B00F04869 /* vertex_array.cxx */,
 			);
 			path = "opengl-template";
 			sourceTree = "<group>";
@@ -170,6 +180,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1617E9B7245161990039CEF5 /* renderer.cxx in Sources */,
+				16901C702454C10B00F04869 /* vertex_array.cxx in Sources */,
+				16901C732454C21E00F04869 /* vertex_buffer_layout.cxx in Sources */,
 				1617E9BF2451643E0039CEF5 /* vertex_buffer.cxx in Sources */,
 				1617E9C2245167090039CEF5 /* index_buffer.cxx in Sources */,
 				1617E9BC245161F20039CEF5 /* macros.cxx in Sources */,

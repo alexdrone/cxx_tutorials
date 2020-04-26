@@ -1,14 +1,21 @@
-//
-//  vertex_array.hpp
-//  opengl-template
-//
-//  Created by Alex Usbergo on 2020-04-25.
-//  Copyright © 2020 Alex Usbergo. All rights reserved.
-//
+#ifndef vertex_array_header
+#define vertex_array_header
 
-#ifndef vertex_array_hpp
-#define vertex_array_hpp
+#include "macros.h"
+#include "vertex_buffer.h"
+#include "vertex_buffer_layout.h"
 
-#include <stdio.h>
+class VertexArray {
+public:
+  VertexArray();
+  ~VertexArray();
+  void Bind() const;
+  void Unbind() const;
+  void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& vl);
 
-#endif /* vertex_array_hpp */
+private:
+  unsigned int renderer_id_;
+};
+
+
+#endif /* vertex_array_header */
