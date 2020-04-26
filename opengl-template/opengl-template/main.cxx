@@ -3,6 +3,7 @@
 #include "index_buffer.h"
 #include "vertex_array.h"
 #include "shader.h"
+#include "renderer.h"
 
 constexpr GLint kWindowWidth = 800.f;
 constexpr GLint kWindowHeight = 600.f;
@@ -72,37 +73,20 @@ int main() {
   GLfloat r = 0.f;
   GLfloat r_increment = 0.05f;
   
+  Renderer renderer;
+  
   while (!glfwWindowShouldClose(window)) {
-    glClear(GL_COLOR_BUFFER_BIT);
+    renderer.Clear();
     
-    vao.Bind();
-    vbo.Bind();
-    ibo.Bind();
-    
-    // ** uniforms **
-    // uniforms are a way to pass data from the CPU to a shader.
-    // - uniforms are set per draw
-    // - attributes are set per vertex
-    // uniform are applied per draw call and affect all of the vertices in that draw call.
-    // you can't have two different uniform values for 2 different triangles.
-    shader.SetUniform4f("u_color", r, .3f, .8f, 1.f);
+    shader.Bind().SetUniform4f("u_color", r, .3f, .8f, 1.f);
     {
       if (r > 1) r_increment = -0.05f; else if (r < 0) r_increment = 0.05f;
       r += r_increment;
     }
+    renderer.Draw(vao, ibo, shader);
     
-    // We can issue a draw command for the vertex buffer.
-    // If we don't have an ibo we can call: (in this case we should have all of the vertices
-    // repeated).
-    // glDrawArrays(GL_TRIANGLES, /* index of the first component */ 0, number_of_vertices);
-    
-    // Draws the triangles using the ibo.
-    // ** note ** Always use GL_UNSIGNED_INT for the indices.
-    GLCall(glDrawElements(GL_TRIANGLES, number_of_vertices, GL_UNSIGNED_INT, nullptr));
-
     // swap front and back buffer.
     glfwSwapBuffers(window);
-    
     glfwPollEvents();
   }
   

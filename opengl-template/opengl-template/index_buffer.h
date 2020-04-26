@@ -9,7 +9,9 @@ public:
   void Bind() const;
   void Unbind() const;
   
-  inline GLsizei GetCount() const;
+  inline GLsizei GetCount() const {
+    return count_;
+  };
 
 private:
   GLuint renderer_id_;

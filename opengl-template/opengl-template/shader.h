@@ -12,16 +12,17 @@ class Shader {
 public:
   Shader(const std::string& filepath);
   ~Shader();
-  void Bind() const;
+  const Shader& Bind() const;
   void Unbind() const;
   
   //TODO: Add the other uniforms.
-  void SetUniform4f(const std::string& name, GLfloat v1, GLfloat v2, GLfloat v3, GLfloat v4);
+  const Shader& SetUniform4f(const std::string& name,
+                             GLfloat v1, GLfloat v2, GLfloat v3, GLfloat v4) const;
 private:
-  std::unordered_map<std::string, GLint> uniform_location_cache_;
+  mutable std::unordered_map<std::string, GLint> uniform_location_cache_;
   std::string filepath_;
   GLuint  renderer_id_ = 0;
-  GLint GetUniformLocation(const std::string& name);
+  GLint GetUniformLocation(const std::string& name) const;
   GLuint CompileShader(GLuint type, const std::string& source);
   GLuint CreateShader(const std::string& vertex_shader, const std::string& fragment_shader);
   ShaderSrc ParseShader(const std::string& file);

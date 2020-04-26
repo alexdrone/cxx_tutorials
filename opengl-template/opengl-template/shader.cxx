@@ -5,17 +5,20 @@ Shader::Shader(const std::string& filepath): filepath_{filepath} {
   renderer_id_ = CreateShader(shaders_src.vertex_source_, shaders_src.fragmet_source_);
 }
 
-void Shader::Bind() const {
+const Shader& Shader::Bind() const {
   GLCall(glUseProgram(renderer_id_));
+  return *this;
 }
 
 void Shader::Unbind() const {
   GLCall(glUseProgram(0));
 }
 
-void Shader::SetUniform4f(const std::string& name, GLfloat v1, GLfloat v2, GLfloat v3, GLfloat v4) {
+const Shader& Shader::SetUniform4f(const std::string& name,
+                                   GLfloat v1, GLfloat v2, GLfloat v3, GLfloat v4) const {
   GLint uniform_location = GetUniformLocation(name);
   GLCall(glUniform4f(uniform_location, v1 , v2, v3, v4));
+  return *this;
 }
 
 Shader::~Shader() {
@@ -36,7 +39,7 @@ static ShaderSrcType ShaderTypeForLine(const std::string& line) {
   return NONE;
 }
 
-GLint Shader::GetUniformLocation(const std::string& name) {
+GLint Shader::GetUniformLocation(const std::string& name) const {
   // ** uniforms **
   // uniforms are a way to pass data from the CPU to a shader.
   // - uniforms are set per draw
