@@ -1,6 +1,6 @@
 #include "vertex_buffer.h"
 
-VertexBuffer::VertexBuffer(const void* data, size_t size) {
+VertexBuffer::VertexBuffer(const void* data, GLsizei size) {
   // In order to draw a triangle we need to define a vertex buffer and a shader.
   // * A vertex buffer is a buffer in the GPu VRAM and used to issue a 'draw' call.
   // * A shader is a program that runs on the GPU that performs the draw command.

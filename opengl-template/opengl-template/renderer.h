@@ -1,6 +1,2 @@
-#ifndef renderer_header
-#define renderer_header
-
+#pragma once
 #include "macros.h"
-
-#endif /* renderer_header */

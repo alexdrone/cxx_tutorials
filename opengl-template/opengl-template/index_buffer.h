@@ -1,21 +1,17 @@
-#ifndef index_buffer_header
-#define index_buffer_header
-
+#pragma once
 #include "macros.h"
 
 class IndexBuffer {
 public:
-  IndexBuffer(const GLuint* data, GLuint count);
+  IndexBuffer(const GLuint* data, GLsizei count);
   ~IndexBuffer();
   
   void Bind() const;
   void Unbind() const;
   
-  inline GLuint GetCount() const;
+  inline GLsizei GetCount() const;
 
 private:
-  unsigned int renderer_id_;
-  unsigned int count_;
+  GLuint renderer_id_;
+  GLsizei count_;
 };
-
-#endif /* index_buffer_header */

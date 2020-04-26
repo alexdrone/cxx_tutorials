@@ -1,18 +1,14 @@
-#ifndef vertex_buffer_header
-#define vertex_buffer_header
-
+#pragma once
 #include "macros.h"
 
 class VertexBuffer {
 public:
-  VertexBuffer(const void* data, size_t size);
+  VertexBuffer(const void* data, GLsizei size);
   ~VertexBuffer();
   
   void Bind() const;
   void Unbind() const;
 
 private:
-  unsigned int renderer_id_;
+  GLuint renderer_id_;
 };
-
-#endif /* vertex_buffer_header */

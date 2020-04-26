@@ -1,6 +1,4 @@
-#ifndef vertex_buffer_layout_header
-#define vertex_buffer_layout_header
-
+#pragma once
 #include "macros.h"
 #include "vertex_buffer.h"
 
@@ -25,9 +23,7 @@ struct VertexBufferLayoutElement {
 
 class VertexBufferLayout {
 public:
-  
-  VertexBufferLayout(): stride_{0} {}
-    
+      
   template<typename T>
   void Push(GLsizei count) {
   }
@@ -61,8 +57,5 @@ public:
   
 private:
   std::vector<VertexBufferLayoutElement> elements_;
-  GLuint stride_;
+  GLuint stride_ = 0;
 };
-
-
-#endif /* vertex_buffer_layout_header */

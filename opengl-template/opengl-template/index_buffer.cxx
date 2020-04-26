@@ -1,6 +1,6 @@
 #include "index_buffer.h"
 
-IndexBuffer:: IndexBuffer(const GLuint* data, GLuint count): count_{count} {
+IndexBuffer:: IndexBuffer(const GLuint* data, GLsizei count): count_{count} {
   // ** index buffers IBO **
   // Everything is drawn composing triangles.
   // Given this two triangles
@@ -27,7 +27,7 @@ void IndexBuffer::Unbind() const {
   GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
-GLuint IndexBuffer::GetCount() const {
+GLsizei IndexBuffer::GetCount() const {
   return count_;
 }
 

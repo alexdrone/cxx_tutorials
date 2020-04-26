@@ -1,11 +1,10 @@
-#ifndef macros_header
-#define macros_header
-
+#pragma once
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <unordered_map>
 
 // glew.
 #define GLEW_STATIC
@@ -18,5 +17,3 @@
 
 extern void GLClearError();
 extern bool GLLogCall(const char *function, int line);
-
-#endif /* macros_header */
