@@ -2,13 +2,13 @@
 #include "macros.h"
 
 class VertexBuffer {
-public:
+ public:
   VertexBuffer(const void* data, GLsizei size);
   ~VertexBuffer();
-  
+
   void Bind() const;
   void Unbind() const;
 
-private:
+ private:
   GLuint renderer_id_;
 };
