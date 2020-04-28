@@ -48,10 +48,10 @@ int main() {
   float vertices[buffer_size] = {
       // first triangle.
       -0.5f, -0.5f, 0.0f, 0.0f,  // vertex idx 0 + texture coordinates
-      0.5f,  -0.5f, 1.0f, 0.0f,  // vertex idx 1 + texture coordinates
-      0.5f,   0.5f, 1.0f, 1.0f,  // vertex idx 2 + texture coordinates
+      0.5f, -0.5f, 1.0f, 0.0f,   // vertex idx 1 + texture coordinates
+      0.5f, 0.5f, 1.0f, 1.0f,    // vertex idx 2 + texture coordinates
       // second triangle.
-      -0.5f,  0.5f,  0.0f, 1.0f  // vertex idx 3 + texture coordinates
+      -0.5f, 0.5f, 0.0f, 1.0f  // vertex idx 3 + texture coordinates
   };
 
   // Initialize the VAO and set its VBO + Memory Layout.
