@@ -20,6 +20,8 @@ class Shader {
                              GLfloat v3, GLfloat v4) const;
   // Used for texture sampler.
   const Shader& SetUniform1i(const std::string& name, GLint i);
+  
+  const Shader& SetUniformMat4f(const std::string& name, const glm::mat4& matrix) const;
 
  private:
   mutable std::unordered_map<std::string, GLint> uniform_location_cache_;

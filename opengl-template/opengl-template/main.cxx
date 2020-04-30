@@ -6,8 +6,8 @@
 #include "vertex_array.h"
 #include "vertex_buffer.h"
 
-constexpr GLint kWindowWidth = 800.f;
-constexpr GLint kWindowHeight = 800.f;
+constexpr GLfloat kWindowWidth = 800.f;
+constexpr GLfloat  kWindowHeight = 600.f;
 
 int main() {
   glfwInit();
@@ -37,6 +37,16 @@ int main() {
   }
 
   glViewport(0, 0, sw, sh);
+  
+  // How do we control blending?
+  // 1.glEnable(GL_BLEND);/glDisable(GL_BLEND) [disabled by default]
+  // 2.glBlendFunc(src, dest) specify how the blending is computed.
+  // 3.glBlenEquation(mode) How we combine the src and dest {GL_FUNC_ADD by default).
+  // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) results in:
+  // R_src * A_src + R_dest * (1 - A_src) = R_dest
+  // G_src * A_src + G_dest * (1 - A_src) = G_dest
+  // B_src * A_src + B_dest * (1 - A_src) = B_dest
+  // A_src * A_src + A_dest * (1 - A_src) = A_dest
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
@@ -47,11 +57,11 @@ int main() {
       number_of_vertices * number_of_coordinates_per_vertex;
   float vertices[buffer_size] = {
       // first triangle.
-      -0.5f, -0.5f, 0.0f, 0.0f,  // vertex idx 0 + texture coordinates
-      0.5f, -0.5f, 1.0f, 0.0f,   // vertex idx 1 + texture coordinates
-      0.5f, 0.5f, 1.0f, 1.0f,    // vertex idx 2 + texture coordinates
+      100.f, 100.f, 0.0f, 0.0f,  // vertex idx 0 + texture coordinates
+      200.f, 100.f, 1.0f, 0.0f,  // vertex idx 1 + texture coordinates
+      200.f, 200.f, 1.0f, 1.0f,  // vertex idx 2 + texture coordinates
       // second triangle.
-      -0.5f, 0.5f, 0.0f, 1.0f  // vertex idx 3 + texture coordinates
+      100.f, 200.f, 0.0f, 1.0f   // vertex idx 3 + texture coordinates
   };
 
   // Initialize the VAO and set its VBO + Memory Layout.
@@ -71,6 +81,11 @@ int main() {
   GLuint indices[] = {0, 1, 2, 2, 3, 0};
   constexpr int number_of_indices = 6;
   IndexBuffer ibo(indices, number_of_indices);
+  
+  // 4:3 projection matrix.
+  // An othographic matrix is a way to transform coordinates in the screen in a way that furter
+  // away elements are not shown as smaller.
+  glm::mat4 proj = glm::ortho(0.f, kWindowWidth, 0.f, kWindowHeight, -1.f, 1.f);;
 
   // ** vertex shader **
   // - program that works on every vertex individually (on the GPU).
@@ -81,6 +96,7 @@ int main() {
   GLint slot = 0;
   texture.Bind(slot);
   shader.SetUniform1i("u_Texture", slot);
+  shader.SetUniformMat4f("u_MVP", proj);
 
   GLfloat r = 0.f;
   GLfloat r_increment = 0.05f;

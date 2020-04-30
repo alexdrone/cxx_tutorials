@@ -8,8 +8,11 @@ layout(location = 1) in vec2 texture_coords;
 // we use it to send the texture coordinates to the fragment shader.
 out vec2 v_texture_coords;
 
+// model view projection matrix.
+uniform mat4 u_MVP;
+
 void main() {
-  gl_Position = position;
+  gl_Position = u_MVP * position;
   v_texture_coords = texture_coords;
 }
 

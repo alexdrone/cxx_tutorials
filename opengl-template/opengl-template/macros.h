@@ -13,6 +13,10 @@
 // glfw.
 #include <GLFW/glfw3.h>
 
+// glm.
+#include "libs/glm/glm.hpp"
+#include "libs/glm/gtc/matrix_transform.hpp"
+
 #define GLAssert(x) \
   if (!(x)) __builtin_trap();
 #define GLCall(x) \
