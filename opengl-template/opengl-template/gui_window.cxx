@@ -1,12 +1,14 @@
 #include "gui_window.h"
 
-void GuiWindow::init(GLFWwindow *window) {
+void GuiWindow::init(GLFWwindow* window) {
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
-  ImGuiIO& io = ImGui::GetIO(); (void)io;
+  ImGuiIO& io = ImGui::GetIO();
+  (void)io;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-  io.Fonts->AddFontFromFileTTF("resources/Agave-Regular.ttf", 14.0f, NULL, NULL);
+  io.Fonts->AddFontFromFileTTF("resources/Agave-Regular.ttf", 14.0f, NULL,
+                               NULL);
 
   ImGui::StyleColorsLight();
   ImGui_ImplGlfw_InitForOpenGL(window, true);

@@ -19,13 +19,13 @@
 
 // imgui.
 #include <CoreFoundation/CoreFoundation.h>
+
 #include "libs/imgui/imconfig.h"
 #include "libs/imgui/imgui.h"
+#include "libs/imgui/imgui_impl_glfw.h"
+#include "libs/imgui/imgui_impl_opengl3.h"
 #include "libs/imgui/imstb_rectpack.h"
 #include "libs/imgui/imstb_textedit.h"
-#include "libs/imgui/imstb_textedit.h"
-#include "libs/imgui/imgui_impl_opengl3.h"
-#include "libs/imgui/imgui_impl_glfw.h"
 
 #define GLAssert(x) \
   if (!(x)) __builtin_trap();

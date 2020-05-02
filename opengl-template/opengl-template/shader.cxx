@@ -26,7 +26,8 @@ const Shader& Shader::SetUniform1i(const std::string& name, GLint i) {
   return *this;
 }
 
-const Shader& Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix) const {
+const Shader& Shader::SetUniformMat4f(const std::string& name,
+                                      const glm::mat4& matrix) const {
   GLint uniform_location = GetUniformLocation(name);
   GLCall(glUniformMatrix4fv(uniform_location, 1, GL_FALSE, &matrix[0][0]));
   return *this;
