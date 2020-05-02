@@ -5,6 +5,7 @@
 #include "texture.h"
 #include "vertex_array.h"
 #include "vertex_buffer.h"
+#include "gui_window.h"
 
 constexpr GLfloat kWindowWidth = 800.f;
 constexpr GLfloat  kWindowHeight = 600.f;
@@ -16,7 +17,7 @@ int main() {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
+  
   const auto window =
       glfwCreateWindow(kWindowWidth, kWindowHeight, "new", nullptr, nullptr);
   int sw, sh;
@@ -35,6 +36,8 @@ int main() {
     std::cout << "Failed to initialize GLEW." << std::endl;
     return -1;
   }
+  
+  GuiWindow::init(window);
 
   glViewport(0, 0, sw, sh);
   
@@ -81,11 +84,6 @@ int main() {
   GLuint indices[] = {0, 1, 2, 2, 3, 0};
   constexpr int number_of_indices = 6;
   IndexBuffer ibo(indices, number_of_indices);
-  
-  // 4:3 projection matrix.
-  // An othographic matrix is a way to transform coordinates in the screen in a way that furter
-  // away elements are not shown as smaller.
-  glm::mat4 proj = glm::ortho(0.f, kWindowWidth, 0.f, kWindowHeight, -1.f, 1.f);;
 
   // ** vertex shader **
   // - program that works on every vertex individually (on the GPU).
@@ -96,30 +94,41 @@ int main() {
   GLint slot = 0;
   texture.Bind(slot);
   shader.SetUniform1i("u_Texture", slot);
-  shader.SetUniformMat4f("u_MVP", proj);
-
-  GLfloat r = 0.f;
-  GLfloat r_increment = 0.05f;
+  
+  glm::vec3 model_matrix_translation(100.f, 100.f, 0.f);
 
   Renderer renderer;
-
+  
   while (!glfwWindowShouldClose(window)) {
+    // ** Projection matrix: ** Maps what the "camera" sees to NDC, taking care of aspect ratio
+    // and perspective. **
+    // An othographic matrix is a way to transform coordinates in the screen in a way that furter
+    // away elements are not shown as smaller.
+    // The vertices array get multiplies against this matrix so that every vertex would be in the
+    // range (-1, 1), if a vertex is beyond that range is not rendered.
+    glm::mat4 projection_matrix = glm::ortho(0.f, kWindowWidth, 0.f, kWindowHeight, -1.f, 1.f);;
+    // View matrix: defines position and orientation of the "camera".
+    glm::mat4 view_matrix = glm::translate(glm::mat4(1.f), glm::vec3(100.f, 100.f, 0.f));
+    // Model matrix: defines position, rotation and scale of the vertices of the model in the world.
+    glm::mat4 model_matrix = glm::translate(glm::mat4(1.f), model_matrix_translation);
+    glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
+    shader.Bind().SetUniformMat4f("u_MVP", mvp);
+    
     renderer.Clear();
-
-    shader.Bind().SetUniform4f("u_Color", r, .3f, .8f, 1.f);
-    {
-      if (r > 1)
-        r_increment = -0.05f;
-      else if (r < 0)
-        r_increment = 0.05f;
-      r += r_increment;
-    }
     renderer.Draw(vao, ibo, shader);
-
+    
+    // Gui.
+    using namespace ImGui;
+    GuiWindow gui("Settings");
+    SliderFloat3("model_matrix_translation", &model_matrix_translation.x, 0.0f, kWindowWidth);
+    gui.Render();
+    
     // swap front and back buffer.
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
+  
+  GuiWindow::destroy();
 
   glfwTerminate();
   return 0;
