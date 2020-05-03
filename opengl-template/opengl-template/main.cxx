@@ -60,11 +60,11 @@ int main() {
       number_of_vertices * number_of_coordinates_per_vertex;
   float vertices[buffer_size] = {
       // first triangle.
-      100.f, 100.f, 0.0f, 0.0f,  // vertex idx 0 + texture coordinates
-      200.f, 100.f, 1.0f, 0.0f,  // vertex idx 1 + texture coordinates
-      200.f, 200.f, 1.0f, 1.0f,  // vertex idx 2 + texture coordinates
+      -50.f, -50.f, 0.0f, 0.0f,  // vertex idx 0 + texture coordinates
+       50.f, -50.f, 1.0f, 0.0f,  // vertex idx 1 + texture coordinates
+       50.f,  50.f, 1.0f, 1.0f,  // vertex idx 2 + texture coordinates
       // second triangle.
-      100.f, 200.f, 0.0f, 1.0f  // vertex idx 3 + texture coordinates
+      -50.f,  50.f, 0.0f, 1.0f  // vertex idx 3 + texture coordinates
   };
 
   // Initialize the VAO and set its VBO + Memory Layout.
@@ -95,11 +95,14 @@ int main() {
   texture.Bind(slot);
   shader.SetUniform1i("u_Texture", slot);
 
-  glm::vec3 model_matrix_translation(100.f, 100.f, 0.f);
+  glm::vec3 model_matrix_translation_a(100.f, 100.f, 0.f);
+  glm::vec3 model_matrix_translation_b(400.f, 200.f, 0.f);
 
   Renderer renderer;
 
   while (!glfwWindowShouldClose(window)) {
+    renderer.Clear();
+
     // ** Projection matrix: ** Maps what the "camera" sees to NDC, taking care
     // of aspect ratio and perspective. ** An othographic matrix is a way to
     // transform coordinates in the screen in a way that furter away elements
@@ -111,21 +114,35 @@ int main() {
     ;
     // View matrix: defines position and orientation of the "camera".
     glm::mat4 view_matrix =
-        glm::translate(glm::mat4(1.f), glm::vec3(100.f, 100.f, 0.f));
-    // Model matrix: defines position, rotation and scale of the vertices of the
-    // model in the world.
-    glm::mat4 model_matrix =
-        glm::translate(glm::mat4(1.f), model_matrix_translation);
-    glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
-    shader.Bind().SetUniformMat4f("u_MVP", mvp);
+        glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, 0.f));
+    
+    {
+      // Model matrix: defines position, rotation and scale of the vertices of the
+      // model in the world.
+      glm::mat4 model_matrix =
+          glm::translate(glm::mat4(1.f), model_matrix_translation_a);
+      glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
 
-    renderer.Clear();
-    renderer.Draw(vao, ibo, shader);
+      shader.Bind().SetUniformMat4f("u_MVP", mvp);
+      renderer.Draw(vao, ibo, shader);
+    }
+    
+    // Draw another element is as simple as changing the MVP matrix for the uniform and
+    // issue another Draw call.
+    {
+      glm::mat4 model_matrix =
+          glm::translate(glm::mat4(1.f), model_matrix_translation_b);
+      glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
+      shader.Bind().SetUniformMat4f("u_MVP", mvp);
+      renderer.Draw(vao, ibo, shader);
+    }
 
     // Gui.
     using namespace ImGui;
     GuiWindow gui("Settings");
-    SliderFloat3("model_matrix_translation", &model_matrix_translation.x, 0.0f,
+    SliderFloat3("translation_a", &model_matrix_translation_a.x, 0.0f,
+                 kWindowWidth);
+    SliderFloat3("translation_b", &model_matrix_translation_b.x, 0.0f,
                  kWindowWidth);
     gui.Render();
 
