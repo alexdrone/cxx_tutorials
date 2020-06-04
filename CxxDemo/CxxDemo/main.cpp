@@ -11,6 +11,7 @@
 #include "structured_bindings.h"
 #include "optionals_variants_any.h"
 #include "threads_async_futures.h"
+#include "move_semantics.h"
 
 int main(int argc, const char *argv[]) {
   std::cout << "Hello, World!" << std::endl;

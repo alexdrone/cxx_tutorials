@@ -37,6 +37,7 @@
 		1688B98224448AC3001D2F2E /* templates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = templates.h; sourceTree = "<group>"; };
 		1688B9832444B283001D2F2E /* lambdas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lambdas.h; sourceTree = "<group>"; };
 		1688B9842444F483001D2F2E /* type_punning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = type_punning.h; sourceTree = "<group>"; };
+		168E64AE2488CFBA00B09DAE /* move_semantics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = move_semantics.h; sourceTree = "<group>"; };
 		169EB5212448F514006959F0 /* strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strings.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +85,7 @@
 				1645DC51244B820D00F0D0BA /* optionals_variants_any.h */,
 				1645DC52244B8C4200F0D0BA /* threads_async_futures.h */,
 				1645DC53244C51F000F0D0BA /* async_gcd.h */,
+				168E64AE2488CFBA00B09DAE /* move_semantics.h */,
 			);
 			path = CxxDemo;
 			sourceTree = "<group>";
