@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16008A482440F88600CC6E8F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16008A472440F88600CC6E8F /* main.cpp */; };
+		16314014248ADA2D004CA997 /* linked_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = 16314013248ADA2A004CA997 /* linked_list.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		16008A442440F88600CC6E8F /* CxxDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CxxDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		16008A472440F88600CC6E8F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		16314012248AD53F004CA997 /* linked_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = linked_list.h; sourceTree = "<group>"; };
+		16314013248ADA2A004CA997 /* linked_list.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = linked_list.cc; sourceTree = "<group>"; };
 		1645DC50244B7BF700F0D0BA /* structured_bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = structured_bindings.h; sourceTree = "<group>"; };
 		1645DC51244B820D00F0D0BA /* optionals_variants_any.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = optionals_variants_any.h; sourceTree = "<group>"; };
 		1645DC52244B8C4200F0D0BA /* threads_async_futures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = threads_async_futures.h; sourceTree = "<group>"; };
@@ -55,6 +58,7 @@
 		16008A3B2440F88600CC6E8F = {
 			isa = PBXGroup;
 			children = (
+				16314011248AD505004CA997 /* Examples */,
 				16008A462440F88600CC6E8F /* CxxDemo */,
 				16008A452440F88600CC6E8F /* Products */,
 			);
@@ -88,6 +92,15 @@
 				168E64AE2488CFBA00B09DAE /* move_semantics.h */,
 			);
 			path = CxxDemo;
+			sourceTree = "<group>";
+		};
+		16314011248AD505004CA997 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				16314012248AD53F004CA997 /* linked_list.h */,
+				16314013248ADA2A004CA997 /* linked_list.cc */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16314014248ADA2D004CA997 /* linked_list.cc in Sources */,
 				16008A482440F88600CC6E8F /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,8 +13,9 @@
 #include "threads_async_futures.h"
 #include "move_semantics.h"
 
-int main(int argc, const char *argv[]) {
-  std::cout << "Hello, World!" << std::endl;
-  
-  async_demo();
+#include "linked_list.h"
+
+int main(int argc, const char *argv[]) {  
+  //async_demo();
+  LinkedListTestSuite();
 }

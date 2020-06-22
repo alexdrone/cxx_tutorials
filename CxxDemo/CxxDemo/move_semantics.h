@@ -32,6 +32,17 @@ public:
     other.size_ = 0;
     other.data_ = nullptr;
   }
+  String& operator=(String&& other) noexcept { // move-assignment
+    std::cout << "move assignment." << std::endl;
+    if (this != &other) {
+      delete[] data_;
+      data_ = other.data_;
+      size_ = other.size_;
+    }
+    return *this;
+  }
+  
+  
   ~String() {
     std::cout << "destroyed." << std::endl;
     delete data_;
@@ -92,6 +103,24 @@ void move_semantics_demo() {
   // created.
   // moved.
   // destroyed.
+}
+
+void move_assignment_demo() {
+  using namespace move_demo;
+  String src = "Hello";
+  String src_2 = "Hello2";
+  String copy_dest = src; // This is a copy.
+  
+  String move_dest_1((String&&)src); // To move it we need to cast src to a temporary (r-value).
+  String move_dest_2(std::move(move_dest_1)); // More elegant way to transform src into a temporary.
+  // ** note ** This can be written as an assignment but IT IS NOT an assignment.
+  // (Just syntactic sugar for the constructor).
+  // The assignment operator is called ONLY when the lhs is an already existing value.
+  String move_dest_3 = std::move(move_dest_2);
+  
+  // move_dest_3 = std::move(src) This WON'T work without the move assignment operator override.
+  // String& operator=(String&& other) noexcept
+  move_dest_3 = std::move(src_2);
 }
 
 void move_semantics_push_back() {
