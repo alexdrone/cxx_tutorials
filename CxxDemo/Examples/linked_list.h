@@ -23,7 +23,6 @@ public:
   }
   Node(const T& value): value_{value} {
     std::cout << "cctor." << std::endl;
-
   }
   Node(T&& value): value_{std::move(value)} {
     std::cout << "mctor." << std::endl;
